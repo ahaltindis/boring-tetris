@@ -1,8 +1,13 @@
 // DOM elements
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
+var containerDiv = document.getElementById("container");
 var menuDiv = document.getElementById("menu");
 var startButton = document.getElementById("start");
+var leftButton = document.getElementById("left");
+var rightButton = document.getElementById("right");
+var rotateButton = document.getElementById("rotate");
+var downButton = document.getElementById("down");
 var infoDiv = document.getElementById("info");
 var scoreSpan = document.getElementById("score");
 var lineSpan = document.getElementById("line");
@@ -11,7 +16,7 @@ var levelSpan = document.getElementById("level");
 // Settings
 var displayWidth = 10;
 var displayHeight = 20;
-var pixelSize = 25;
+var pixelSize = 30;
 var colors = ["red", "aqua", "magenta", "green", "blue", "orange", "brown"];
 var fillColor = "black";
 var gridOn = false;
@@ -38,7 +43,7 @@ var score;
 var totalLine;
 
 init();
-start.addEventListener('click', function (event) {
+startButton.addEventListener('click', function (event) {
     startGame();
 });
 
@@ -57,6 +62,11 @@ function startGame() {
     currentColor = Math.floor(Math.random() * 10) % 7;
 
     document.onkeydown = keyHandler;
+    leftButton.onclick = keyHandler;
+    rightButton.onclick = keyHandler;
+    downButton.onclick = keyHandler;
+    rotateButton.onclick = keyHandler;
+
     loopCount = 0;
     gameLoop = setInterval(function () {
         loop();
@@ -72,17 +82,22 @@ function finishGame() {
     for (var x = 0; x < pixels.length; x++) {
         pixels[x] = 0;
     }
+    document.onkeydown = null;
+    leftButton.onclick = null;
+    rightButton.onclick = null;
+    downButton.onclick = null;
+    rotateButton.onclick = null;
     showMenu();
 }
 
 function keyHandler(e) {
-    if (e.code == 'ArrowUp') {
+    if (e.code == 'ArrowUp' || e.target.id == 'rotate') {
         currentRotation += doesFit(currentShape, currentRotation + 1, currentX, currentY) ? 1 : 0;
-    } else if (e.code == 'ArrowDown') {
+    } else if (e.code == 'ArrowDown' || e.target.id == 'down') {
         currentY += doesFit(currentShape, currentRotation, currentX, currentY + 1) ? 1 : 0;
-    } else if (e.code == 'ArrowLeft') {
+    } else if (e.code == 'ArrowLeft' || e.target.id == 'left') {
         currentX -= doesFit(currentShape, currentRotation, currentX - 1, currentY) ? 1 : 0;
-    } else if (e.code == 'ArrowRight') {
+    } else if (e.code == 'ArrowRight' || e.target.id == 'right') {
         currentX += doesFit(currentShape, currentRotation, currentX + 1, currentY) ? 1 : 0;
     }
 }
@@ -331,9 +346,12 @@ function drawGrid() {
 
 function showMenu() {
     menuDiv.style.width = (canvas.width - 6) + 'px';
-    menuDiv.style.height = '70px';
+    menuDiv.style.height = '90px';
     menuDiv.style.marginTop = (canvas.height / 2 - 100) + 'px';
     menuDiv.style.display = "block";
+
+    //it is unrelated but I really don't care. Just to overcome of absolute positioning of all elements.
+    containerDiv.style.height = (canvas.height+5) + 'px';
 }
 
 function hideMenu() {

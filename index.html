@@ -17,15 +17,23 @@
             <div class="text">
                 The best Tetris game ever!
             </div>
-            <input type="button" id="start" value="Start Game!" />
+            <input type="button" id="start" class="controlButton" value="Start Game!" />
+        </div>
+        <div id="info">
+            <div class="text">Score: <span id="score">-</span></div>
+            <div class="text">Lines: <span id="line">-</span></div>
+            <div class="text">Level: <span id="level">-</span></div>
         </div>
     </div>
-    <div id="info">
-        <div class="text">Score: <span id="score">-</span></div>
-        <div class="text">Lines: <span id="line">-</span></div>
-        <div class="text">Level: <span id="level">-</span></div>
+    <div class="text">
+        Use arrow keys or control buttons to play.
     </div>
-    </div>
+    <div id="controls">
+            <input type="button" id="left" class="controlButton" title="left" value="<" />
+            <input type="button" id="right" class="controlButton" title="right" value=">" />
+            <input type="button" id="rotate" class="controlButton" title="rotate" value="/" />
+            <input type="button" id="down" class="controlButton" title="down" value=":" />
+        </div>
     <script src="script.js"></script>
 </body>
 
