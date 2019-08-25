@@ -25,11 +25,13 @@
   }
 
   .text {
-    font-size:13px;
+    font-size:15px;
     margin: 4px;
   }
 
   .controlButton {
     font-size: 30px;
     margin: 10px;
+    min-width: 45px;
+    min-height: 45px;
   }
