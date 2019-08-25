@@ -3,6 +3,7 @@ var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 var containerDiv = document.getElementById("container");
 var menuDiv = document.getElementById("menu");
+var leadersDiv = document.getElementById("leadersBoard");
 var startButton = document.getElementById("start");
 var leftButton = document.getElementById("left");
 var rightButton = document.getElementById("right");
@@ -87,6 +88,12 @@ function finishGame() {
     rightButton.onclick = null;
     downButton.onclick = null;
     rotateButton.onclick = null;
+
+    if(isHighScore(score)) {
+        var name = prompt("yeeyy high score");
+        name && setHighScore(name, score);
+    }
+
     showMenu();
 }
 
@@ -346,12 +353,48 @@ function drawGrid() {
 
 function showMenu() {
     menuDiv.style.width = (canvas.width - 6) + 'px';
-    menuDiv.style.height = '90px';
-    menuDiv.style.marginTop = (canvas.height / 2 - 100) + 'px';
+    //menuDiv.style.height = '90px';
+    menuDiv.style.marginTop = (canvas.height / 2 - 150) + 'px';
     menuDiv.style.display = "block";
 
     //it is unrelated but I really don't care. Just to overcome of absolute positioning of all elements.
     containerDiv.style.height = (canvas.height+5) + 'px';
+
+    generateLeadersBoard();
+}
+
+function isHighScore(score) {
+    var leadersData = JSON.parse(localStorage.getItem("leaders")) || [];
+    if (leadersData.length < 5 || score > (leadersData[4][1] || 0)) {
+        return true
+    }
+    return false;
+}
+
+function setHighScore(name, score) {
+    var leadersData = JSON.parse(localStorage.getItem("leaders")) || [];
+    var no = 0;
+    for (var i = 0; i < 5; i++) {
+        record = leadersData[i] || ['-----', 0];
+        if(score > record[1]){
+            no = i;
+            break;
+        }
+    }
+    leadersData.splice(no, 0, [name, score]);
+    localStorage.setItem("leaders", JSON.stringify(leadersData));
+}
+
+function generateLeadersBoard() {
+    var leadersData = JSON.parse(localStorage.getItem("leaders")) || [];
+
+    var inner = "<table>";
+    for(var i=0; i < 5; i++){
+        record = leadersData[i] || ['-----', 0];
+        inner += "<tr><td>" + (i+1) + ". " + record[0].slice(0,5) + "</td><td>" + record[1] + "</td></tr>";
+    }
+    inner += "</table>"
+    leadersDiv.innerHTML = inner;
 }
 
 function hideMenu() {

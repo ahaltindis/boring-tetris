@@ -19,6 +19,24 @@
     z-index: -1000;
   }
 
+  #leadersBoard {
+    text-align: center;
+  }
+
+  #leadersBoard table {
+    margin: 0 auto;
+  }
+
+  #leadersBoard td:first-child {
+    width: 70px;
+    text-align: left;
+  }
+
+  #leadersBoard td {
+    width: 70px;
+    text-align: right;
+  }
+
   #info {
     padding-top: 10px;
     margin-left: 10px;
